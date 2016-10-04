@@ -46,7 +46,7 @@ public class ConnectFourView extends JFrame /*implements ConnectFourModelListene
 		for (int i = 0; i < row; i++){ //this does animating
 			System.out.println("loop " + i);
 			board[col][i].setColor(color); // recolor chip
-			try{Thread.sleep(500);}
+			try{Thread.sleep(100);}
 			catch(InterruptedException e){}
 			board[col][i].setColor(Color.WHITE); // back to white
 		}

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.*;
 
 public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 	public ArrayList<ConnectFourModelListener> listeners = new ArrayList<ConnectFourModelListener>();
@@ -18,7 +19,8 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 	public void printBoard() {
 		for (int i = 0; i < BOARD_COLUMNS; i++){
 			for (int j = 0; j < BOARD_ROWS; j++) {
-				System.out.print(board[i][j] + " " + i + " " + j + " ");
+				System.out.printf("%7s", board[i][j]);
+				System.out.print(" " + i + " " + j + " ");
 			}
 			System.out.println();
 		}
@@ -64,6 +66,7 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 		for(ConnectFourModelListener listener : listeners) listener.addChip(col, row, state);
 	}
 
+	//8x2 array
 	public int[][] getNeighbors(int col, int row) {
 		int[][] toRet =  {{col-1,row-1}, {col-1,row}, {col-1,row+1}, {col,row-1}, {col,row+1}, {col+1,row-1}, {col+1,row}, {col+1,row+1} };
 		return toRet;
@@ -80,6 +83,7 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 
 		//Check if valid neighbor
 		if(neighbors[dir][0] < 0 || neighbors[dir][1] < 0) return 0;
+		else if (neighbors[dir][0] < 7 || neighbors[dir][1] < 6) return 0;  
 		SpotState neighbor = board[neighbors[dir][0]][neighbors[dir][1]];
 		//Check if same color
 		if(neighbor != curr) return 0;
@@ -93,6 +97,7 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 			int chain = 0;
 			chain += countChain(col, row, i);
 			chain += countChain(col, row, 7 - i);
+			System.out.println("chain: " + chain);
 			if(chain >= 4) {
 				return true;
 			}
@@ -100,14 +105,16 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 		return false;
 	}
 
+
 	public AnimateAction click(int col) {
 		int pos = getLowestPosition(col);
 		System.out.println("lowest Position: " + pos);
-		AnimateAction action;
+		AnimateAction action = null;
 		// if it is a valid move and no one has won yet
-		if(pos > -1 && (gameState == GameState.RED_TURN || gameState == GameState.BLACK_TURN)) {
+		if (pos > -1 && (gameState == GameState.RED_TURN || gameState == GameState.BLACK_TURN)) {
 			// update model
 			this.setChip(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK);
+			System.out.println(checkWin(col, pos));
 			// check win: UNCOMMENT LATER
 			//if (checkWin(col, pos)) {
 				//Red won
@@ -116,12 +123,12 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 				//else if(gameState == GameState.BLACK_TURN) gameState = GameState.BLACK_WIN;
 			//}
 			
-			action = new AnimateAction(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
+			action = new AnimateAction(col, pos, 1, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
 			switchTurns();
 			System.out.println("gamestate: " + this.gameState);
 		}
-		else {
-			action = null;//new AnimateAction(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
+		else if (pos < 0) {
+			action = new AnimateAction(0);//new AnimateAction(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
 		}
 		return action;
 	}

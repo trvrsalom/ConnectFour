@@ -9,11 +9,15 @@ public class AnimateAction {
 	private final int ANIMATE_CHIP_DROP = 1;
 	private final int DISPLAY_WIN_SCREEN = 2;
 
-	public AnimateAction(int col, int row, SpotState state, GameState gameState) {
+	public AnimateAction(int col, int row, int action, SpotState state, GameState gameState) {
 		this.col = col;
 		this.row = row;
 		this.state = state;
 		this.gameState = gameState;
+	}
+
+	public AnimateAction(int action) {
+		this.action = action;
 	}
 
 	public int getCol() { return col; }
