@@ -9,7 +9,7 @@ public class ConnectFourController {
         view = new ConnectFourView("Connect Four");
       	model = new ConnectFourModel();
 
-				model.addListener(view);
+				//model.addListener(view);
 
         // view.addListener
         // add listeners to the view when a chip is clicked.
@@ -19,8 +19,11 @@ public class ConnectFourController {
               //System.out.println("("+e.getX() + "," + e.getY()+")"); //print out coordinates
 							int col = ((e.getX()-50)/100);
 							col = col > 6 ? 6 : col;
-							System.out.println(col);
-							model.click(col);
+							col = col < 0 ? 0 : col;
+							AnimateAction action = model.click(col);
+							if(action != null) {
+								view.addChip(action);
+							}
               view.repaint(); //repaints
               // handle the mouseClick in the logic.
               // if the mouse click is outside a chip, add a

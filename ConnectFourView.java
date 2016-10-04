@@ -4,9 +4,9 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 
-// this class has to have the listeners to change the view as well as the 
+// this class has to have the listeners to change the view as well as the
 
-public class ConnectFourView extends JFrame implements ConnectFourModelListener {
+public class ConnectFourView extends JFrame /*implements ConnectFourModelListener*/ {
   private ArrayList<ConnectFourViewListener> listeners = new ArrayList<ConnectFourViewListener>();
   private int numCols = 7;
   private int numRows = 6;
@@ -32,12 +32,15 @@ public class ConnectFourView extends JFrame implements ConnectFourModelListener 
   public void addListener(ConnectFourViewListener listener) {
       listeners.add(listener);
   }
-    
+
   public void click(int col) {
       for(ConnectFourViewListener listener : listeners) listener.click(col);
   }
-    
-  public void addChip(int col, int row, SpotState state){
+
+  public void addChip(AnimateAction action) {
+		int col = action.getCol();
+		int row = action.getRow();
+		SpotState state = action.getSpotState();
     Color color = state == SpotState.RED ? Color.RED : Color.BLACK;
     for(int i = 0; i < row-1; i++){ //this does animating
       board[col-1][i].setColor(color); // recolor chip
@@ -45,7 +48,7 @@ public class ConnectFourView extends JFrame implements ConnectFourModelListener 
       catch(InterruptedException e){}
       board[col-1][i].setColor(Color.WHITE); // back to white
     }
-    board[col-1][row-1].setColor(color); // recolor Circle
+    board[col][row].setColor(color); // recolor Circle
 
   }
 }
