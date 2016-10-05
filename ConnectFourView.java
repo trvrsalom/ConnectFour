@@ -12,6 +12,8 @@ public class ConnectFourView extends JFrame /*implements ConnectFourModelListene
 	private int numRows = 6;
 	private Chip[][] board = new Chip[numCols][numRows];
 
+	private final int ANIMATION_DELAY = 100;
+
 	public ConnectFourView(String title) {
 		// JFrame frame = new JFrame();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,19 +40,33 @@ public class ConnectFourView extends JFrame /*implements ConnectFourModelListene
 	}
 
 	public void addChip(AnimateAction action) {
+		System.out.println("action number: " + action.getAction());
 		int col = action.getCol();
 		int row = action.getRow();
 		SpotState state = action.getSpotState();
 		System.out.println(state);
 		Color color = (state == SpotState.RED ? Color.RED : Color.BLACK);
-		for (int i = 0; i < row; i++){ //this does animating
-			System.out.println("loop " + i);
+
+		for (int i = 0; i < row; i++) { //this does animating
 			board[col][i].setColor(color); // recolor chip
-			try{Thread.sleep(100);}
+			try{Thread.sleep(ANIMATION_DELAY);}
 			catch(InterruptedException e){}
 			board[col][i].setColor(Color.WHITE); // back to white
 		}
+
 		board[col][row].setColor(color); // recolor Circle
+	}
+
+	public void displayWinMessage(GameState state) {
+		if (state == GameState.RED_WIN) {
+			JOptionPane.showMessageDialog(this, "Red Wins!!!");
+		} else if (state == GameState.BLACK_WIN) {
+			JOptionPane.showMessageDialog(this, "Black Wins!!!");
+		}
+	}
+
+	public void displayColumnFullMessage() {
+		JOptionPane.showMessageDialog(this, "Column full. Please choose a different column.");
 	}
 }
 

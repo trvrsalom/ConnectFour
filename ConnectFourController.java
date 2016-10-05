@@ -27,7 +27,17 @@ public class ConnectFourController {
 			System.out.println(action.getCol());
 			System.out.println(action.getRow());
 			if(action != null) {
-				view.addChip(action);
+				System.out.println("actionNum:" + action.getAction());
+				if (action.getAction() == 0) {
+					view.displayColumnFullMessage();
+				} else if (action.getAction() == 1) {
+					view.addChip(action);
+				} else if (action.getAction() == 2) {
+					view.addChip(action);
+					view.displayWinMessage(action.getGameState());
+					// remove mouse click listeners
+				} 
+
 				model.printBoard();
 			}
             view.repaint(); //repaints

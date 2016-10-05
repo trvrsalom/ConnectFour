@@ -7,11 +7,12 @@ public class AnimateAction {
 
 	private final int DISPLAY_FULL_COLUMN_ERROR = 0;
 	private final int ANIMATE_CHIP_DROP = 1;
-	private final int DISPLAY_WIN_SCREEN = 2;
+	private final int ANIMATE_AND_DISPLAY_WIN_SCREEN = 2;
 
 	public AnimateAction(int col, int row, int action, SpotState state, GameState gameState) {
 		this.col = col;
 		this.row = row;
+		this.action = action;
 		this.state = state;
 		this.gameState = gameState;
 	}
