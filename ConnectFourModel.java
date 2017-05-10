@@ -5,7 +5,7 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 	public ArrayList<ConnectFourModelListener> listeners = new ArrayList<ConnectFourModelListener>();
 
 	private SpotState[][] board;
-	private GameState gameState; 
+	public GameState gameState;
 	private final int BOARD_COLUMNS = 7;
 	private final int BOARD_ROWS = 6;
 
@@ -17,7 +17,7 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 	}
 
 	public void printBoard() {
-		for (int i = 0; i < BOARD_COLUMNS; i++){
+		for (int i = 0; i < BOARD_COLUMNS; i++) {
 			for (int j = 0; j < BOARD_ROWS; j++) {
 				System.out.printf("%7s", board[i][j]);
 				System.out.print(" " + i + " " + j + " ");
@@ -45,11 +45,11 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 
 	public int getLowestPosition(int col) {
 		//if (!columnFull(col)) {
-			for (int i = board[col].length - 1; i >= 0; i--) {
-				if (board[col][i] == SpotState.EMPTY) {
-					return i;
-				}
+		for (int i = board[col].length - 1; i >= 0; i--) {
+			if (board[col][i] == SpotState.EMPTY) {
+				return i;
 			}
+		}
 		//}
 		return -1;
 	}
@@ -80,9 +80,9 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 		SpotState curr = board[col][row];
 		int[][] neighbors = getNeighbors(col, row);
 
-		//Check if neighbor is on the board. 
+		//Check if neighbor is on the board.
 		if(neighbors[dir][0] < 0 || neighbors[dir][1] < 0) return 0;
-		else if (neighbors[dir][0] > 6 || neighbors[dir][1] > 5) return 0;  
+		else if (neighbors[dir][0] > 6 || neighbors[dir][1] > 5) return 0;
 		SpotState neighbor = board[neighbors[dir][0]][neighbors[dir][1]];
 
 		//Check if same color
@@ -99,7 +99,7 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 			// this is clever as fuck
 			chain += countChain(col, row, i);
 			chain += countChain(col, row, 7 - i);
-			if(chain >= 3) {	
+			if(chain >= 3) {
 				System.out.println("chain: " + chain);
 				return true;
 			}
@@ -128,10 +128,11 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 				action = new AnimateAction(col, pos, 1, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
 				switchTurns();
 				System.out.println("gamestate: " + this.gameState);
-			}	
+			}
 		} else if (pos < 0) {
-			action = new AnimateAction(0);//new AnimateAction(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
+			action = new AnimateAction(0);      //new AnimateAction(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
 		}
 		return action;
 	}
+
 }
