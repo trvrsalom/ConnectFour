@@ -13,7 +13,7 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 		board = new SpotState[BOARD_COLUMNS][BOARD_ROWS];
 		this.initializeBoardAsEmpty();
 		this.gameState = GameState.RED_TURN;
-		printBoard();
+		//printBoard();
 	}
 
 	public void printBoard() {
@@ -100,7 +100,7 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 			chain += countChain(col, row, i);
 			chain += countChain(col, row, 7 - i);
 			if(chain >= 3) {
-				System.out.println("chain: " + chain);
+				//System.out.println("chain: " + chain);
 				return true;
 			}
 		}
@@ -109,13 +109,13 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 
 	public AnimateAction click(int col) {
 		int pos = getLowestPosition(col);
-		System.out.println("lowest Position: " + pos);
+		//System.out.println("lowest Position: " + pos);
 		AnimateAction action = null;
 		// if it is a valid move and no one has won yet
 		if (pos > -1 && (gameState == GameState.RED_TURN || gameState == GameState.BLACK_TURN)) {
 			// update model
 			this.setChip(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK);
-			System.out.println("CHECKING WIN");
+			//System.out.println("CHECKING WIN");
 			if (checkWin(col, pos)) {
 				if (gameState == GameState.RED_TURN) {
 					gameState = GameState.RED_WIN;
@@ -127,10 +127,10 @@ public class ConnectFourModel /*implements ConnectFourViewListener*/ {
 			} else {
 				action = new AnimateAction(col, pos, 1, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
 				switchTurns();
-				System.out.println("gamestate: " + this.gameState);
+				//System.out.println("gamestate: " + this.gameState);
 			}
 		} else if (pos < 0) {
-			action = new AnimateAction(0);      //new AnimateAction(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
+			action = new AnimateAction(0);                  //new AnimateAction(col, pos, gameState == GameState.RED_TURN ? SpotState.RED : SpotState.BLACK, gameState);
 		}
 		return action;
 	}

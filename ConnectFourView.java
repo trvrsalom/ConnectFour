@@ -17,16 +17,16 @@ public class ConnectFourView extends JFrame /*implements ConnectFourModelListene
 	public ConnectFourView(String title) {
 		// JFrame frame = new JFrame();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle(title); //sets title
+		this.setTitle(title);     //sets title
 
 		this.setSize(numCols*100+100,numRows*100+125);
 		this.getContentPane().setBackground(Color.YELLOW);
 
-		for(int i = 0; i < numCols; i++){
-			for(int j = 0; j < numRows; j++){
-				board[i][j] = new Chip(i*100+100,j*100+100,Color.WHITE); // create Chip
+		for(int i = 0; i < numCols; i++) {
+			for(int j = 0; j < numRows; j++) {
+				board[i][j] = new Chip(i*100+100,j*100+100,Color.WHITE);         // create Chip
 				this.add(board[i][j]);
-				this.setVisible(true);         //Ensures component is visible
+				this.setVisible(true);                 //Ensures component is visible
 			}
 		}
 	}
@@ -40,21 +40,21 @@ public class ConnectFourView extends JFrame /*implements ConnectFourModelListene
 	}
 
 	public void addChip(AnimateAction action) {
-		System.out.println("action number: " + action.getAction());
+		//System.out.println("action number: " + action.getAction());
 		int col = action.getCol();
 		int row = action.getRow();
 		SpotState state = action.getSpotState();
-		System.out.println(state);
+		//System.out.println(state);
 		Color color = (state == SpotState.RED ? Color.RED : Color.BLACK);
 
-		for (int i = 0; i < row; i++) { //this does animating
-			board[col][i].setColor(color); // recolor chip
+		for (int i = 0; i < row; i++) {     //this does animating
+			board[col][i].setColor(color);       // recolor chip
 			try{Thread.sleep(ANIMATION_DELAY);}
-			catch(InterruptedException e){}
-			board[col][i].setColor(Color.WHITE); // back to white
+			catch(InterruptedException e) {}
+			board[col][i].setColor(Color.WHITE);       // back to white
 		}
 
-		board[col][row].setColor(color); // recolor Circle
+		board[col][row].setColor(color);     // recolor Circle
 	}
 
 	public void displayWinMessage(GameState state) {
@@ -68,15 +68,16 @@ public class ConnectFourView extends JFrame /*implements ConnectFourModelListene
 	public void displayColumnFullMessage() {
 		JOptionPane.showMessageDialog(this, "Column full. Please choose a different column.");
 	}
+
 }
 
 class Chip extends JComponent {
-	private int x = 0;  //circle ypoint
-	private int y = 0;  //circle xpoint
-	private int d = 90; //circle diameter
+	private int x = 0;    //circle ypoint
+	private int y = 0;    //circle xpoint
+	private int d = 90;   //circle diameter
 	private Color c = Color.BLACK;
 
-	public Chip(int x, int y, Color c){ //assigns values
+	public Chip(int x, int y, Color c){   //assigns values
 		this.x = x;
 		this.y = y;
 		this.c = c;
@@ -88,9 +89,10 @@ class Chip extends JComponent {
 	}
 
 	public void paintComponent(Graphics g){
-		Graphics2D g2 = (Graphics2D) g;      //Recover Graphics2D
-		g2.setColor(c);                      //Sets color
+		Graphics2D g2 = (Graphics2D) g;          //Recover Graphics2D
+		g2.setColor(c);                          //Sets color
 		Ellipse2D.Double circle = new Ellipse2D.Double(x-d/2, y-d/2, d, d);
 		g2.fill(circle);
 	}
+
 }
